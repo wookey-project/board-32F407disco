@@ -13,10 +13,6 @@ CONFIG_HEX_NAME="$(CONFIG_PROJ_NAME).hex"
 CONFIG_ELF_NAME="$(CONFIG_PROJ_NAME).elf"
 CONFIG_BUILD_DIR="build"
 CONFIG_PRIVATE_DIR="private"
-CONFIG_CROSS_COMPILE="arm-none-eabi-"
-CONFIG_ADA_RUNTIME="/opt/adacore-arm-eabi"
-CONFIG_ST_FLASH="../stlink/build/st-flash"
-CONFIG_ST_UTIL="../stlink/build/st-util"
 
 #
 # Micro-Kernel configuration
@@ -32,15 +28,13 @@ CONFIG_ST_UTIL="../stlink/build/st-util"
 CONFIG_DISCO407=y
 # CONFIG_DISCO429 is not set
 # CONFIG_WOOKEY is not set
-CONFIG_RAM_SLOT_SIZE=16384
 
 #
 # SoC and Core setup
 #
 CONFIG_STM32F4=y
 CONFIG_STM32F407=y
-# CONFIG_STM32F429 is not set
-# CONFIG_STM32F439 is not set
+CONFIG_RAM_SLOT_SIZE=16384
 # CONFIG_FPU_ENABLE is not set
 CONFIG_CORE_FREQUENCY=168000
 CONFIG_ARCH_ARMV7M=y
@@ -51,19 +45,20 @@ CONFIG_BOARDNAME="32f407discovery"
 CONFIG_SOCNAME="stm32f407"
 CONFIG_CORENAME="cortex-m4"
 CONFIG_MAXTASKS=8
-CONFIG_AFLAGS="-mlittle-endian -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -fPIC -fpie"
+CONFIG_AFLAGS_GCC="-mlittle-endian -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -fPIC -fpie"
+CONFIG_AFLAGS_LLVM="--target=thumbv7m-none-eabi -mcpu=cortex-m4 -m32 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -mthumb -fPIC -fpie"
 # CONFIG_ADAKERNEL is not set
+# CONFIG_KERNEL_NOSERIAL is not set
+CONFIG_KERNEL_PANIC_FREEZE=y
+# CONFIG_KERNEL_PANIC_REBOOT is not set
+# CONFIG_KERNEL_PANIC_WIPE is not set
 CONFIG_KERNEL_CONSOLE_USART1=y
 # CONFIG_KERNEL_CONSOLE_USART6 is not set
 CONFIG_KERNEL_USART=1
 CONFIG_KERNEL_CONSOLE_TXT=y
-# CONFIG_KERNEL_LED is not set
 CONFIG_KERNEL_DMA_ENABLE=y
 CONFIG_KERNEL_GETCYCLES=y
 CONFIG_KERNEL_DOMAIN=y
-# CONFIG_KERNEL_SYSCALLS_IN_IRQ is not set
-CONFIG_KERNEL_SYSCALLS_WISE_REPARTITION=y
-# CONFIG_KERNEL_SYSCALLS_IN_SOFTIRQ is not set
 
 #
 # Scheduling schemes
@@ -85,12 +80,19 @@ CONFIG_KERN_CFLAGS="-O3"
 #
 # Kernel hacking
 #
+CONFIG_KERNEL_SOFTIRQ_QUEUE_DEPTH=20
 CONFIG_DBGLEVEL=6
 CONFIG_DEBUG=y
 CONFIG_KERNEL_SCHED_DEBUG=y
 CONFIG_KERNEL_SCHED_DEBUG_BUFSIZE=1000
 CONFIG_KERNEL_EXPERT_MODE=y
 CONFIG_KERNEL_EWOK=y
+
+#
+# Bootloader configuration
+#
+# CONFIG_LOADER_MOCKUP is not set
+# CONFIG_LOADER_FW_HASH_CHECK is not set
 
 #
 # Userspace drivers and features
@@ -100,8 +102,7 @@ CONFIG_KERNEL_EWOK=y
 # Userspace drivers library pool
 #
 CONFIG_USR_DRV_USART=y
-CONFIG_USR_DRV_USART_CFLAGS=" -I../../drivers/socs/stm32f439/usart/api "
-CONFIG_DRV_CFLAGS=" $(CONFIG_USR_DRV_USART_CFLAGS)"
+CONFIG_USR_DRV_USART_CFLAGS=" -I../../drivers/socs/stm32f407/usart/api "
 # CONFIG_DRV_OPTIM_NONE is not set
 # CONFIG_DRV_OPTIM_PERF1 is not set
 # CONFIG_DRV_OPTIM_PERF2 is not set
@@ -114,12 +115,6 @@ CONFIG_DRIVERS_CFLAGS="-O3"
 #
 CONFIG_USR_LIB_CONSOLE=y
 CONFIG_USR_LIB_CONSOLE_CFLAGS=" -I../../libs/console/api "
-
-#
-# Libstd configuration
-#
-# CONFIG_STD_MALLOC is not set
-CONFIG_LIB_CFLAGS=" $(CONFIG_USR_LIB_CONSOLE_CFLAGS) $(CONFIG_USR_LIB_STD_CFLAGS) -I../../libs/std"
 # CONFIG_LIB_OPTIM_NONE is not set
 # CONFIG_LIB_OPTIM_PERF1 is not set
 # CONFIG_LIB_OPTIM_PERF2 is not set
@@ -254,7 +249,7 @@ CONFIG_IPC=y
 #
 
 #
-# BLINKY      [#]   [ ]   [ ]
+# BLINKY      [#]   [ ]   [ ]
 #
 
 #
@@ -262,7 +257,7 @@ CONFIG_IPC=y
 #
 
 #
-# BUTTONS     [ ]   [1]   [#]
+# BUTTON      [ ]   [1]   [#]
 #
 CONFIG_DMA_SHM=y
 
@@ -271,7 +266,7 @@ CONFIG_DMA_SHM=y
 #
 
 #
-# BLINKY      [#]   [ ]   [ ]
+# BLINKY      [#]   [ ]   [ ]
 #
 
 #
@@ -279,7 +274,7 @@ CONFIG_DMA_SHM=y
 #
 
 #
-# BUTTONS     [ ]   [ ]   [#]
+# BUTTON      [ ]   [ ]   [#]
 #
 CONFIG_SHM=y
 CONFIG_FIRMWARE=y
@@ -287,7 +282,28 @@ CONFIG_FIRMWARE=y
 #
 # External tooling and libs
 #
-# CONFIG_EXTERNALS is not set
+CONFIG_EXTERNALS=y
+CONFIG_USR_LIB_SIGN=y
+CONFIG_USR_LIB_SIGN_CFLAGS=" -I../../externals/libecc/src "
+
+#
+# libsign features
+#
+CONFIG_ECC_CURVENAME_FR256=y
+# CONFIG_ECC_CURVENAME_SP256 is not set
+# CONFIG_ECC_CURVENAME_BP256 is not set
+CONFIG_ECC_CURVNAME="FRP256V1"
+
+#
+# Block device FDE (Full Disk Encryption) options
+#
+# CONFIG_USB_DEV_SCSI_BLOCK_SIZE_512 is not set
+# CONFIG_USB_DEV_SCSI_BLOCK_SIZE_1024 is not set
+# CONFIG_USB_DEV_SCSI_BLOCK_SIZE_2048 is not set
+CONFIG_USB_DEV_SCSI_BLOCK_SIZE_4096=y
+# CONFIG_USB_DEV_SCSI_BLOCK_SIZE_8192 is not set
+CONFIG_AES256_CBC_ESSIV=y
+# CONFIG_TDES_CBC_ESSIV is not set
 
 #
 # Firmware options
@@ -305,9 +321,11 @@ CONFIG_FIRMWARE_MODE_MONO_BANK=y
 # CONFIG_OPTIM_PERF2 is not set
 # CONFIG_OPTIM_PERF3 is not set
 CONFIG_OPTIM_SIZE=y
-CONFIG_DBGFLAGS="-g3 -fno-caller-saves -fno-cse-follow-jumps -fno-hoist-adjacent-loads -fno-inline-small-functions -fno-optimize-sibling-calls -fno-peephole2 -fno-reorder-functions -fno-rerun-cse-after-loop -fno-tree-vrp -fno-reorder-blocks -fno-tree-vect-loop-version -finline-functions-called-once -fno-align-functions  -fno-align-jumps  -fno-align-loops -fno-align-labels -fno-reorder-blocks-and-partition  -fno-prefetch-loop-arrays -finline-functions-called-once -fipa-pure-const -fmerge-constants -Os"
+CONFIG_DBGFLAGS_GCC="-g3 -fno-caller-saves -fno-cse-follow-jumps -fno-hoist-adjacent-loads -fno-inline-small-functions -fno-optimize-sibling-calls -fno-peephole2 -fno-reorder-functions -fno-rerun-cse-after-loop -fno-tree-vrp -fno-reorder-blocks -fno-tree-vect-loop-version -finline-functions-called-once -fno-align-functions  -fno-align-jumps  -fno-align-loops -fno-align-labels -fno-reorder-blocks-and-partition  -fno-prefetch-loop-arrays -finline-functions-called-once -fipa-pure-const -fmerge-constants -Os"
+CONFIG_DBGFLAGS_LLVM="-g3 -Os"
 CONFIG_STACK_PROT_FLAG=y
-CONFIG_WARNFLAGS="-Wall -Werror -Wextra -Wno-reserved-id-macro -Wno-padded -Wno-packed -Wno-covered-switch-default -Wno-used-but-marked-unused -Wno-unused-but-set-variable -Wno-unused-function -Werror"
+CONFIG_WARNFLAGS_GCC="-Wall -Werror -Wextra -Wno-reserved-id-macro -Wno-padded -Wno-packed -Wno-covered-switch-default -Wno-used-but-marked-unused -Wno-unused-but-set-variable -Wno-unused-function -Werror"
+CONFIG_WARNFLAGS_LLVM="-fintegrated-as -fno-builtin -Wno-error=unused-command-line-argument -Wno-incompatible-library-redeclaration -Wall -Werror -Wextra -Wno-reserved-id-macro -Wno-padded -Wno-packed -Wno-covered-switch-default -Wno-used-but-marked-unused -Wno-unused-function -Werror"
 CONFIG_EMBEDCFLAGS="-fno-builtin -nostdlib -D_FORTIFY_SOURCE=2"
 CONFIG_EC_UTILS="tools/ec_utils"
 CONFIG_DONE=y

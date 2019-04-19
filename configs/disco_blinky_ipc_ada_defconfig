@@ -347,52 +347,36 @@ CONFIG_NEED_IPC=y
 CONFIG_IPC=y
 
 #
-# --------- BENCHLOG BLINKY  SVCTESTS    LEDS  BUTTON
+# --------- BLINKY LEDS BUTTON
 #
 
 #
-# BENCHLOG    [#]      [ ]      [ ]      [ ]    [ ]
+# BLINKY      [#]   [ ]   [ ]
 #
 
 #
-# BLINKY      [ ]      [#]      [ ]      [ ]    [ ]
+# LEDS        [ ]   [#]   [1]
 #
 
 #
-# SVCTEST     [ ]      [ ]      [#]      [ ]    [ ]
-#
-
-#
-# LEDS        [ ]      [ ]      [ ]      [#]    [1]
-#
-
-#
-# BUTTON      [ ]      [ ]      [ ]      [1]    [#]
+# BUTTON      [ ]   [1]   [#]
 #
 CONFIG_DMA_SHM=y
 
 #
-# --------- BENCHLOG CRYPTEST SDIOTEST SVCTEST USBTEST
+# --------- BLINKY LEDS BUTTON
 #
 
 #
-# BENCHLOG    [#]      [ ]      [ ]      [ ]    [ ]
+# BLINKY      [#]   [ ]   [ ]
 #
 
 #
-# CRYPTEST    [ ]      [#]      [ ]      [ ]    [ ]
+# LEDS        [ ]   [#]   [ ]
 #
 
 #
-# SDIOTEST    [ ]      [ ]      [#]      [ ]    [ ]
-#
-
-#
-# SVCTEST     [ ]      [ ]      [ ]      [#]    [ ]
-#
-
-#
-# USBTEST     [ ]      [ ]      [ ]      [ ]    [#]
+# BUTTON      [ ]   [ ]   [#]
 #
 CONFIG_SHM=y
 CONFIG_FIRMWARE=y
@@ -411,9 +395,9 @@ CONFIG_ECC_CURVENAME_FR256=y
 # CONFIG_ECC_CURVENAME_SP256 is not set
 # CONFIG_ECC_CURVENAME_BP256 is not set
 CONFIG_ECC_CURVNAME="FRP256V1"
-# CONFIG_GP_PRO is not set
-# CONFIG_ANT_JAVACARD is not set
-# CONFIG_SECAES is not set
+# CONFIG_EXT_GP_PRO is not set
+# CONFIG_EXT_ANT_JAVACARD is not set
+# CONFIG_EXT_SECAES is not set
 
 #
 # Block device FDE (Full Disk Encryption) options

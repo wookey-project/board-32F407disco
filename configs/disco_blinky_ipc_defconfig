@@ -55,6 +55,7 @@ CONFIG_KERNEL_PANIC_FREEZE=y
 # CONFIG_KERNEL_PANIC_REBOOT is not set
 # CONFIG_KERNEL_PANIC_WIPE is not set
 CONFIG_KERNEL_CONSOLE_USART1=y
+# CONFIG_KERNEL_CONSOLE_USART4 is not set
 # CONFIG_KERNEL_CONSOLE_USART6 is not set
 CONFIG_KERNEL_USART=1
 CONFIG_KERNEL_CONSOLE_TXT=y
@@ -103,9 +104,8 @@ CONFIG_KERNEL_EWOK=y
 #
 # Userspace drivers library pool
 #
-# CONFIG_USR_DRV_ISO7816 is not set
-CONFIG_USR_DRV_USART=y
 # CONFIG_USR_DRV_SPI is not set
+CONFIG_USR_DRV_USART=y
 CONFIG_USR_DRV_FLASH=y
 
 #
@@ -113,6 +113,7 @@ CONFIG_USR_DRV_FLASH=y
 #
 CONFIG_USR_DRV_FLASH_1M=y
 CONFIG_USR_DRV_FLASH_SINGLE_BANK=y
+# CONFIG_USR_DRV_ISO7816 is not set
 # CONFIG_USR_DRV_HASH is not set
 CONFIG_USR_DRV_USART_CFLAGS=" -I@PROJFILES@/drivers/socs/stm32f407/usart/api "
 CONFIG_USR_DRV_FLASH_CFLAGS=" -I@PROJFILES@/drivers/socs/stm32f407/flash/api "
@@ -126,7 +127,7 @@ CONFIG_DRIVERS_CFLAGS="-O3"
 #
 # Userspace utility libraries
 #
-CONFIG_USR_LIB_CONSOLE=y
+CONFIG_USR_LIB_DEBUG=y
 # CONFIG_USR_LIB_HMAC is not set
 CONFIG_USR_LIB_STD=y
 
@@ -140,10 +141,10 @@ CONFIG_STD_MALLOC_LIGHT=y
 CONFIG_STD_MALLOC_SIZE_LEN=16
 CONFIG_STD_MALLOC_ALIGN=1
 CONFIG_STD_MALLOC_MUTEX=y
-CONFIG_USR_LIB_DEBUG=y
-CONFIG_USR_LIB_CONSOLE_CFLAGS=" -I@PROJFILES@/libs/console/api "
-CONFIG_USR_LIB_STD_CFLAGS=" -I@PROJFILES@/libs/std/api "
+CONFIG_USR_LIB_CONSOLE=y
 CONFIG_USR_LIB_DEBUG_CFLAGS=" -I@PROJFILES@/libs/debug/api "
+CONFIG_USR_LIB_STD_CFLAGS=" -I@PROJFILES@/libs/std/api "
+CONFIG_USR_LIB_CONSOLE_CFLAGS=" -I@PROJFILES@/libs/console/api "
 # CONFIG_LIB_OPTIM_NONE is not set
 # CONFIG_LIB_OPTIM_PERF1 is not set
 # CONFIG_LIB_OPTIM_PERF2 is not set
@@ -160,36 +161,75 @@ CONFIG_LIB_OPTIM_CFLAGS="-O3"
 #
 
 #
-# BLINKY custom app
+# SVCTEST custom app
 #
-# CONFIG_APP_BLINKY is not set
+# CONFIG_APP_SVCTEST is not set
 
 #
 # Devices
 #
-# CONFIG_APP_BLINKY_PERM_DEV_DMA is not set
-CONFIG_APP_BLINKY_PERM_DEV_CRYPTO=0
-# CONFIG_APP_BLINKY_PERM_DEV_BUSES is not set
-# CONFIG_APP_BLINKY_PERM_DEV_EXTI is not set
-# CONFIG_APP_BLINKY_PERM_DEV_TIM is not set
+# CONFIG_APP_SVCTEST_PERM_DEV_DMA is not set
+CONFIG_APP_SVCTEST_PERM_DEV_CRYPTO=0
+# CONFIG_APP_SVCTEST_PERM_DEV_BUSES is not set
+# CONFIG_APP_SVCTEST_PERM_DEV_EXTI is not set
+# CONFIG_APP_SVCTEST_PERM_DEV_TIM is not set
 
 #
 # Time
 #
-CONFIG_APP_BLINKY_PERM_TIM_GETCYCLES=0
+CONFIG_APP_SVCTEST_PERM_TIM_GETCYCLES=0
 
 #
 # Tasking
 #
-# CONFIG_APP_BLINKY_PERM_TSK_FISR is not set
-# CONFIG_APP_BLINKY_PERM_TSK_FIPC is not set
-# CONFIG_APP_BLINKY_PERM_TSK_RESET is not set
-# CONFIG_APP_BLINKY_PERM_TSK_UPGRADE is not set
+# CONFIG_APP_SVCTEST_PERM_TSK_FISR is not set
+# CONFIG_APP_SVCTEST_PERM_TSK_FIPC is not set
+# CONFIG_APP_SVCTEST_PERM_TSK_RESET is not set
 
 #
 # Memory management
 #
-# CONFIG_APP_BLINKY_PERM_MEM_DYNAMIC_MAP is not set
+# CONFIG_APP_SVCTEST_PERM_MEM_DYNAMIC_MAP is not set
+
+#
+# LEDS custom app
+#
+CONFIG_APP_LEDS=y
+CONFIG_APP_LEDS_FW=y
+CONFIG_APP_LEDS_NUMSLOTS=1
+CONFIG_APP_LEDS_STACKSIZE=8192
+# CONFIG_APP_LEDS_SHM is not set
+
+#
+# Permissions
+#
+
+#
+# Devices
+#
+# CONFIG_APP_LEDS_PERM_DEV_DMA is not set
+CONFIG_APP_LEDS_PERM_DEV_CRYPTO=0
+# CONFIG_APP_LEDS_PERM_DEV_BUSES is not set
+# CONFIG_APP_LEDS_PERM_DEV_EXTI is not set
+# CONFIG_APP_LEDS_PERM_DEV_TIM is not set
+
+#
+# Time
+#
+CONFIG_APP_LEDS_PERM_TIM_GETCYCLES=2
+
+#
+# Tasking
+#
+# CONFIG_APP_LEDS_PERM_TSK_FISR is not set
+# CONFIG_APP_LEDS_PERM_TSK_FIPC is not set
+# CONFIG_APP_LEDS_PERM_TSK_RESET is not set
+# CONFIG_APP_LEDS_PERM_TSK_UPGRADE is not set
+
+#
+# Memory management
+#
+# CONFIG_APP_LEDS_PERM_MEM_DYNAMIC_MAP is not set
 
 #
 # BUTTON custom app
@@ -232,107 +272,41 @@ CONFIG_APP_BUTTON_PERM_TIM_GETCYCLES=2
 # CONFIG_APP_BUTTON_PERM_MEM_DYNAMIC_MAP is not set
 
 #
-# SVCTEST custom app
+# BLINKY custom app
 #
-# CONFIG_APP_SVCTEST is not set
+# CONFIG_APP_BLINKY is not set
 
 #
 # Devices
 #
-# CONFIG_APP_SVCTEST_PERM_DEV_DMA is not set
-CONFIG_APP_SVCTEST_PERM_DEV_CRYPTO=0
-# CONFIG_APP_SVCTEST_PERM_DEV_BUSES is not set
-# CONFIG_APP_SVCTEST_PERM_DEV_EXTI is not set
-# CONFIG_APP_SVCTEST_PERM_DEV_TIM is not set
+# CONFIG_APP_BLINKY_PERM_DEV_DMA is not set
+CONFIG_APP_BLINKY_PERM_DEV_CRYPTO=0
+# CONFIG_APP_BLINKY_PERM_DEV_BUSES is not set
+# CONFIG_APP_BLINKY_PERM_DEV_EXTI is not set
+# CONFIG_APP_BLINKY_PERM_DEV_TIM is not set
 
 #
 # Time
 #
-CONFIG_APP_SVCTEST_PERM_TIM_GETCYCLES=0
+CONFIG_APP_BLINKY_PERM_TIM_GETCYCLES=0
 
 #
 # Tasking
 #
-# CONFIG_APP_SVCTEST_PERM_TSK_FISR is not set
-# CONFIG_APP_SVCTEST_PERM_TSK_FIPC is not set
-# CONFIG_APP_SVCTEST_PERM_TSK_RESET is not set
+# CONFIG_APP_BLINKY_PERM_TSK_FISR is not set
+# CONFIG_APP_BLINKY_PERM_TSK_FIPC is not set
+# CONFIG_APP_BLINKY_PERM_TSK_RESET is not set
+# CONFIG_APP_BLINKY_PERM_TSK_UPGRADE is not set
 
 #
 # Memory management
 #
-# CONFIG_APP_SVCTEST_PERM_MEM_DYNAMIC_MAP is not set
+# CONFIG_APP_BLINKY_PERM_MEM_DYNAMIC_MAP is not set
 
 #
 # BENCHLOG custom app
 #
 # CONFIG_APP_BENCHLOG is not set
-
-#
-# Devices
-#
-# CONFIG_APP_BENCHLOG_PERM_DEV_DMA is not set
-CONFIG_APP_BENCHLOG_PERM_DEV_CRYPTO=0
-# CONFIG_APP_BENCHLOG_PERM_DEV_BUSES is not set
-# CONFIG_APP_BENCHLOG_PERM_DEV_EXTI is not set
-# CONFIG_APP_BENCHLOG_PERM_DEV_TIM is not set
-
-#
-# Time
-#
-CONFIG_APP_BENCHLOG_PERM_TIM_GETCYCLES=0
-
-#
-# Tasking
-#
-# CONFIG_APP_BENCHLOG_PERM_TSK_FISR is not set
-# CONFIG_APP_BENCHLOG_PERM_TSK_FIPC is not set
-# CONFIG_APP_BENCHLOG_PERM_TSK_RESET is not set
-# CONFIG_APP_BENCHLOG_PERM_TSK_UPGRADE is not set
-
-#
-# Memory management
-#
-# CONFIG_APP_BENCHLOG_PERM_MEM_DYNAMIC_MAP is not set
-
-#
-# LEDS custom app
-#
-CONFIG_APP_LEDS=y
-CONFIG_APP_LEDS_FW=y
-CONFIG_APP_LEDS_NUMSLOTS=1
-CONFIG_APP_LEDS_STACKSIZE=8192
-# CONFIG_APP_LEDS_SHM is not set
-
-#
-# Permissions
-#
-
-#
-# Devices
-#
-# CONFIG_APP_LEDS_PERM_DEV_DMA is not set
-CONFIG_APP_LEDS_PERM_DEV_CRYPTO=0
-# CONFIG_APP_LEDS_PERM_DEV_BUSES is not set
-# CONFIG_APP_LEDS_PERM_DEV_EXTI is not set
-# CONFIG_APP_LEDS_PERM_DEV_TIM is not set
-
-#
-# Time
-#
-CONFIG_APP_LEDS_PERM_TIM_GETCYCLES=2
-
-#
-# Tasking
-#
-# CONFIG_APP_LEDS_PERM_TSK_FISR is not set
-# CONFIG_APP_LEDS_PERM_TSK_FIPC is not set
-# CONFIG_APP_LEDS_PERM_TSK_RESET is not set
-# CONFIG_APP_LEDS_PERM_TSK_UPGRADE is not set
-
-#
-# Memory management
-#
-# CONFIG_APP_LEDS_PERM_MEM_DYNAMIC_MAP is not set
 
 #
 # Configuring communication permissions for appliations
@@ -431,6 +405,6 @@ CONFIG_DBGFLAGS_LLVM="-ggdb -Os"
 CONFIG_STACK_PROT_FLAG=y
 CONFIG_WARNFLAGS_GCC="-Wl,--gc-sections -Wall -Werror -Wextra -Wno-reserved-id-macro -Wno-padded -Wno-packed -Wno-covered-switch-default -Wno-used-but-marked-unused -Wno-unused-but-set-variable -Wno-unused-function -Werror"
 CONFIG_WARNFLAGS_LLVM="-fintegrated-as -sed-command-line-argument -Wno-incompatible-library-redeclaration -Wall -Werror -Wextra -Wno-reserved-id-macro -Wno-padded -Wno-packed -Wno-covered-switch-default -Wno-used-but-marked-unused -Wno-unused-function -Werror"
-CONFIG_EMBEDCFLAGS="-Wl,--gc-sections -ffunction-sections -fno-builtin -ffreestanding -nolibc -nostdlib -nodefaultlibs -D_FORTIFY_SOURCE=2"
+CONFIG_EMBEDCFLAGS="-Wl,--gc-sections -ffunction-sections -fno-builtin -ffreestanding -nostdlib -nodefaultlibs"
 CONFIG_EC_UTILS="tools/ec_utils"
 CONFIG_DONE=y
